@@ -1,6 +1,10 @@
 <template>
 	<div id="app">
+		<h1>基础</h1>
 		<my-select :options="options"></my-select>
+		
+		<h1>禁用</h1>
+		<my-select :options="options" disabled></my-select>
 	</div>
 </template>
 

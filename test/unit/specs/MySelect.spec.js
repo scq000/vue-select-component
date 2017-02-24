@@ -89,7 +89,7 @@ describe('MySelect Component', () => {
     });
 
     describe('#Disabled Select', () => {
-        it('can disable the select', (done) => {
+        it('can disable the select', () => {
             vm = createVue({
                 template: `
                     <my-select :options="options"></my-select>
@@ -101,12 +101,11 @@ describe('MySelect Component', () => {
                 },
             }, true);
 
-            inputbox.click();
+            vm.$el.querySelector('.select-input').click();
 
-            setTimeout(() => {
+            Vue.nextTick(() => {
                 expect(dropdown.style.display).to.equal('none');
-                done();
-            }, 500);
+            });
         });
     });
 

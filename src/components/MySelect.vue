@@ -18,18 +18,21 @@
 </template>
 
 <script type="text/javascript">
-
 export default {
 	name: 'my-select',
 	props: {
 		options: {
 			type: Array,
 			required: true
-	},
+		},
 		editable: {
 			type: Boolean,
 			default: false
 		},
+		disabled: {
+			type: Boolean,
+			default: false
+		}
 	},
 	data() {
 		return {
@@ -40,7 +43,9 @@ export default {
 
 	methods: {
 		handleSelect() {
-			this.visible = !this.visible;
+			if(!this.disabled) {
+				this.visible = !this.visible;
+			}
 		},
 		selectItem(value) {
 			this.selected = value;
@@ -49,13 +54,13 @@ export default {
 	},
 
 	created() {
-		document.addEventListener('click', (e) => 　{
+		document.addEventListener('click', (e) => {
 			if (!this.$el.contains(e.target)) {
 				this.visible = false;
 			}
 		});
 	}
-};
+}
 </script>
 
 <style lang="less">
