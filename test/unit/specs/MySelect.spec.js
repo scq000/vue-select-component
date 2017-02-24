@@ -3,6 +3,7 @@ import MySelect from 'src/components/MySelect';
 import Vue from 'vue';
 import {
     createTest,
+    createVue,
     destroyVM,
 } from '../utils';
 
@@ -69,6 +70,26 @@ describe('MySelect Component', () => {
             Vue.nextTick(() => {
                 expect(dropdown.style.display).to.equal('none');
             });
+        });
+    });
+
+    describe('#Editable Select', () => {
+        it('can change the value by user input', () => {
+            vm = createVue({
+                template: `
+                    <my-select :options="options" editable></my-select>
+                `,
+                data() {
+                    return {
+                        options: [{ text: 'test1', value: 'test1' }, { text: 'test2', value: 'test2' }],
+                    };
+                },
+                components: {
+                    MySelect,
+                },
+            }, true);
+
+            expect(vm.$el.querySelector('.select-input__box').readOnly).to.false;
         });
     });
 
