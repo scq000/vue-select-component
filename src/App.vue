@@ -2,9 +2,15 @@
 	<div id="app">
 		<h1>基础</h1>
 		<my-select :options="options"></my-select>
-		
+
 		<h1>禁用</h1>
 		<my-select :options="options" disabled></my-select>
+
+		<h1>可编辑</h1>
+		<my-select :options="options" editable></my-select>
+
+		<h1>支持多选</h1>
+		<my-select :options="options" multiple></my-select>
 	</div>
 </template>
 

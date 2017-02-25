@@ -2,13 +2,22 @@
 <div class="select">
 
 	<div class="select-input" @click="handleSelect">
-		<input class="select-input__box" type="text" placeholder="请选择" :readonly="!editable" :value="selected" />
+
+		<span v-if="multiple">
+			<span class="label" v-for="item in selectedItems">
+				<span class="label__text">{{item.text}}</span>
+				<i class="label__clear" @click="clearLabel(item)">X</i>
+			</span>
+		</span>
+		<input class="select-input__box" type="text" placeholder="请选择" :readonly="!editable" :value="selected" v-model="multiple ? '' : selected"
+		@keypress.enter="visible = false"
+		/>
 		<i class="select-input__caret"></i>
 	</div>
 
 	<div class="select-content" v-show="visible">
 		<ul class="select-content__wrapper">
-			<li class="select-content__item" v-for="option in options" :value="option.value" @click.stop="selectItem(option.value)">
+			<li class="select-content__item" v-for="option in options" :value="option.value" @click.stop="selectItem(option)">
 				<span>{{option.text}}</span>
 			</li>
 		</ul>
@@ -19,48 +28,68 @@
 
 <script type="text/javascript">
 export default {
-	name: 'my-select',
-	props: {
-		options: {
-			type: Array,
-			required: true
-		},
-		editable: {
-			type: Boolean,
-			default: false
-		},
-		disabled: {
-			type: Boolean,
-			default: false
-		}
-	},
-	data() {
-		return {
-			visible: false,
-			selected: ''
-		}
-	},
+    name: 'my-select',
+    props: {
+        options: {
+            type: Array,
+            required: true,
+        },
+        editable: {
+            type: Boolean,
+            default: false,
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
+        multiple: {
+            type: Boolean,
+            default: false,
+        },
+    },
+    data() {
+        return {
+            visible: false,
+            selected: '',
+            selectedItems: [],
+        };
+    },
 
-	methods: {
-		handleSelect() {
-			if(!this.disabled) {
-				this.visible = !this.visible;
-			}
-		},
-		selectItem(value) {
-			this.selected = value;
-			this.visible = false;
-		}
-	},
+    methods: {
+        handleSelect() {
+            if (!this.disabled) {
+                this.visible = !this.visible;
+            }
+        },
+        selectItem(option) {
+            if (!this.multiple) {
+                this.selected = option.value;
+                this.visible = false;
+            } else {
+                const selectedSet = new Set(this.selectedItems);
+                if (selectedSet.has(option)) {
+                    selectedSet.delete(option);
+                } else {
+                    selectedSet.add(option);
+                }
+                this.selectedItems = Array.from(selectedSet);
+            }
+        },
+        clearLabel(option) {
+            const selectedSet = new Set(this.selectedItems);
+            selectedSet.delete(option);
+            this.selectedItems = Array.from(selectedSet);
+        },
+    },
 
-	created() {
-		document.addEventListener('click', (e) => {
-			if (!this.$el.contains(e.target)) {
-				this.visible = false;
-			}
-		});
-	}
-}
+    created() {
+        document.addEventListener('click', (e) => {
+            if (!this.$el.contains(e.target)) {
+                this.visible = false;
+            }
+        });
+    },
+};
 </script>
 
 <style lang="less">
