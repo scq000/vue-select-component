@@ -15,20 +15,49 @@
 </template>
 
 <script>
-	import MySelect from './components/MySelect';
+import MySelect from './components/MySelect';
 
-	export default {
-		name: 'app',
-		data() {
-			return {
-				options: [{ text: 'a', value: 'a' }, { text: 'b', value: 'b' }, { text: 'c', value: 'c' }]
-			}
-
-		},
-		components: {
-			MySelect,
-		},
-	};
+export default {
+    name: 'app',
+    data() {
+        return {
+            options: [{
+                text: 'a',
+                value: 'a',
+            }, {
+                text: 'b',
+                value: 'b',
+            }, {
+                text: 'c',
+                value: 'c',
+            }, {
+                text: 'd',
+                value: 'd',
+            }, {
+                text: 'e',
+                value: 'e',
+            }, {
+                text: 'f',
+                value: 'f',
+            }, {
+                text: 'g',
+                value: 'g',
+            }, {
+                text: 'h',
+                value: 'h',
+            }, {
+                text: 'i',
+                value: 'i',
+            }, {
+                text: 'j',
+                value: 'j',
+            }],
+        };
+    },
+    components: {
+        MySelect,
+    },
+};
 </script>
 
 <style>

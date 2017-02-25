@@ -3,13 +3,13 @@
 
 	<div class="select-input" @click="handleSelect">
 
-		<span v-if="multiple">
+		<span v-if="multiple" class="select-multiple">
 			<span class="label" v-for="item in selectedItems">
 				<span class="label__text">{{item.text}}</span>
-				<i class="label__clear" @click="clearLabel(item)">X</i>
+				<i class="label__clear" @click.stop="clearLabel(item)">X</i>
 			</span>
 		</span>
-		<input class="select-input__box" type="text" placeholder="请选择" :readonly="!editable" :value="selected" v-model="multiple ? '' : selected"
+		<input class="select-input__box" type="text" :placeholder="isChoose ? '' : placeholder" :readonly="!editable" :value="selected" v-model="multiple ? '' : selected"
 		@keypress.enter="visible = false"
 		/>
 		<i class="select-input__caret"></i>
@@ -17,7 +17,7 @@
 
 	<div class="select-content" v-show="visible">
 		<ul class="select-content__wrapper">
-			<li class="select-content__item" v-for="option in options" :value="option.value" @click.stop="selectItem(option)">
+			<li class="select-content__item" v-for="option in options" :value="option.value" @click.stop="selectItem(option)" :class="isSelected(option)">
 				<span>{{option.text}}</span>
 			</li>
 		</ul>
@@ -46,6 +46,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        placeholder: {
+            type: String,
+            default: '请选择',
+        },
     },
     data() {
         return {
@@ -53,6 +57,12 @@ export default {
             selected: '',
             selectedItems: [],
         };
+    },
+
+    computed: {
+        isChoose() {
+            return this.multiple && this.selectedItems.length > 0;
+        },
     },
 
     methods: {
@@ -73,12 +83,16 @@ export default {
                     selectedSet.add(option);
                 }
                 this.selectedItems = Array.from(selectedSet);
+                option.selected = !option.selected;
             }
         },
         clearLabel(option) {
             const selectedSet = new Set(this.selectedItems);
             selectedSet.delete(option);
             this.selectedItems = Array.from(selectedSet);
+        },
+        isSelected(option) {
+            return this.isMultiple && new Set(this.selectedItems).has(option) ? 'selected' : '';
         },
     },
 
@@ -96,6 +110,11 @@ export default {
 .select {
     width: 240px;
     position: relative;
+
+	&-multiple {
+		position: absolute;
+		top: 5px;
+	}
 
     &-input {
         width: 100%;
@@ -115,6 +134,10 @@ export default {
     }
 
     &-content {
+	    position: absolute;
+		z-index: 1024;
+	    left: 0px;
+	    right: 0px;
 
         &__wrapper {
             list-style: none;
@@ -127,6 +150,8 @@ export default {
             box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
             box-sizing: border-box;
             margin: 5px 0;
+			max-height: 240px;
+			overflow: scroll;
         }
 
         &__item {
@@ -146,7 +171,37 @@ export default {
             &:hover {
                 background: #EAEAEA;
             }
+
+			&.selected {
+				color: #fff;
+				background: #38adff;
+				outline: 1px solid;
+			}
         }
     }
 }
+
+.label {
+	width: 100px;
+    height: 24px;
+    background: rgba(38,160,255,.2);
+    border: 1px solid;
+    color: #38adff;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 8px;
+    font-size: 14px;
+
+	&__clear {
+		cursor: pointer;
+		&:hover {
+			background: #38adff;
+			color: #fff;
+			border: 1px solid;
+			border-radius: 50%;
+		}
+	}
+}
+
 </style>
