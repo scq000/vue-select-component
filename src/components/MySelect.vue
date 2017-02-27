@@ -82,14 +82,14 @@ export default {
                 } else {
                     selectedSet.add(option);
                 }
-                this.selectedItems = Array.from(selectedSet);
+                this.selectedItems = [...selectedSet];
                 option.selected = !option.selected;
             }
         },
         clearLabel(option) {
             const selectedSet = new Set(this.selectedItems);
             selectedSet.delete(option);
-            this.selectedItems = Array.from(selectedSet);
+            this.selectedItems = [...selectedSet];
         },
         isSelected(option) {
             return this.isMultiple && new Set(this.selectedItems).has(option) ? 'selected' : '';
