@@ -82,6 +82,7 @@ export default {
                 } else {
                     selectedSet.add(option);
                 }
+
                 this.selectedItems = [...selectedSet];
                 option.selected = !option.selected;
             }
@@ -92,7 +93,7 @@ export default {
             this.selectedItems = [...selectedSet];
         },
         isSelected(option) {
-            return this.isMultiple && new Set(this.selectedItems).has(option) ? 'selected' : '';
+            return this.multiple && new Set(this.selectedItems).has(option) ? 'selected' : '';
         },
     },
 
