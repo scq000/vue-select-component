@@ -2,6 +2,8 @@
 
 > A Select Component for vue2.
 
+一个基于vue 2.0的下拉选择组件，在线Demo请看[http://scq000.github.io/vue-select-component](http://scq000.github.io/vue-select-component).
+
 ## Build Setup
 
 ``` bash
@@ -19,9 +21,4 @@ npm run build --report
 
 # run unit tests
 npm run unit
-
-# run all tests
-npm test
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
