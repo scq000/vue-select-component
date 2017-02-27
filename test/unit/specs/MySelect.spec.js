@@ -85,6 +85,12 @@ describe('MySelect Component', () => {
             }, true);
 
             expect(vm.$el.querySelector('.select-input__box').readOnly).to.false;
+            inputbox = vm.$el.querySelector('.select-input__box');
+            inputbox.value = 'userinput';
+
+            Vue.nextTick(() => {
+                expect(vm.value).to.equal('userinput');
+            });
         });
     });
 
